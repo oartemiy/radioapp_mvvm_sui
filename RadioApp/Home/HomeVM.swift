@@ -80,10 +80,11 @@ final class HomeVM: ObservableObject {
     @Published private(set) var headerStr = "Radios"
     @Published private(set) var playlists = [MusicM]()
     @Published private(set) var recentlyPlayed = [MusicM]()
-    
-    @Published private(set) var selectedMusic: MusicM? = nil
-    var fetcher = RadioFetcher.shared
     @Published var displayPlayer = false
+    @Published private(set) var selectedMusic: MusicM? = nil
+    
+    
+    var fetcher = RadioFetcher.shared
     
     init() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

@@ -9,20 +9,24 @@ import Foundation
 final class RadioPlayer: ObservableObject {
     var player = AVPlayer()
     
-    @Published var isPlaying = false
+    @Published var isPlaying = true
     @Published var efir: MusicM? = nil
     
-    init() { }
+    init(currentEfir: MusicM? = nil) {
+        self.efir = currentEfir
+        self.initPlayer(url: efir?.streamUrl)
+        self.play(efir!)
+    }
     
-    func initPlayer(url: String) {
-        guard let url = URL(string: url) else { return }
+    func initPlayer(url: String?) {
+        guard let url = URL(string: url!) else { return }
         let playerItem = AVPlayerItem(url: url)
         player = AVPlayer(playerItem: playerItem)
+        player.volume = 1
     }
 
     func play(_ efir: MusicM) {
         self.efir = efir
-        player.volume = 1
         player.play()
         isPlaying = true
     }

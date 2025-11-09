@@ -10,7 +10,7 @@ fileprivate let HORIZONTAL_SPACING: CGFloat = 24
 struct PlayerV: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var viewModel: PlayerVM
-    @StateObject var radioPlayer = RadioPlayer()
+    @StateObject var radioPlayer: RadioPlayer
     
     var body: some View {
         ZStack {

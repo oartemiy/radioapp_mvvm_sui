@@ -35,3 +35,4 @@ struct PlaylistV: View {
         .frame(maxWidth: 200, maxHeight: 400)
     }
 }
+

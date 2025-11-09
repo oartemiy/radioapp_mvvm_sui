@@ -6,9 +6,9 @@
 import Foundation
 
 final class PlayerVM: ObservableObject {
-    let model: MusicM
-    @Published var liked = true
-    @Published var isPlaying = false
+    var model: MusicM
+    @Published var liked = false
+    @Published var isPlaying = true
     
     init(model: MusicM) {
         self.model = model
