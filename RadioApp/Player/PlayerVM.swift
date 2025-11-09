@@ -13,4 +13,8 @@ final class PlayerVM: ObservableObject {
     init(model: MusicM) {
         self.model = model
     }
+    
+    func update(model: MusicM) {
+        self.model = model
+    }
 }

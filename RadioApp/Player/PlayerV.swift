@@ -9,8 +9,10 @@ fileprivate let HORIZONTAL_SPACING: CGFloat = 24
 
 struct PlayerV: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @StateObject var viewModel: PlayerVM
-    @StateObject var radioPlayer: RadioPlayer
+    @ObservedObject var viewModel: PlayerVM
+    @ObservedObject var radioPlayer: RadioPlayer
+    @State var playlist: [MusicM]
+    @State var musicIndex: Int
     
     var body: some View {
         ZStack {
@@ -41,7 +43,7 @@ struct PlayerV: View {
                 Spacer()
                 
                 HStack(alignment: .center, spacing: 12) {
-                    Text("01:34").foregroundColor(.text_primary)
+                    Text("Volume").foregroundColor(.text_primary)
                         .bold()
                     Slider(value: $radioPlayer.player.volume, in: 0...1)
                         .accentColor(.main_white)
@@ -54,21 +56,21 @@ struct PlayerV: View {
                 Spacer()
                 
                 HStack(alignment: .center) {
-                    Button(action: {  }) {
+                    Button(action: { minusOneMusic() }) {
                         Image.next.resizable().frame(width: 18, height: 18)
                             .rotationEffect(Angle(degrees: 180))
                             .padding(24).background(Color.primary_color)
                             .cornerRadius(40).modifier(NeuShadow())
                     }
                     Spacer()
-                    Button(action: { playPause(efir: viewModel.model) }) {
+                    Button(action: { playPause() }) {
                         (viewModel.isPlaying ? Image.pause : Image.play)
                             .resizable().frame(width: 28, height: 28)
                             .padding(50).background(Color.main_color)
                             .cornerRadius(70).modifier(NeuShadow())
                     }
                     Spacer()
-                    Button(action: {  }) {
+                    Button(action: { plusOneMusic() }) {
                         Image.next.resizable().frame(width: 18, height: 18)
                             .padding(24).background(Color.primary_color)
                             .cornerRadius(40).modifier(NeuShadow())
@@ -78,15 +80,34 @@ struct PlayerV: View {
         }
     }
     
-    private func playPause(efir: MusicM) {
+    private func playPause() {
         viewModel.isPlaying.toggle()
-        if efir != radioPlayer.efir {
-            radioPlayer.initPlayer(url: efir.streamUrl)
-            radioPlayer.play(efir)
-        } else if !radioPlayer.isPlaying {
-            radioPlayer.play(efir)
+        if !radioPlayer.isPlaying {
+            radioPlayer.play()
         } else {
             radioPlayer.stop()
         }
+    }
+    
+    private func plusOneMusic() {
+        self.musicIndex += 1
+        self.musicIndex = (self.musicIndex + playlist.count) % playlist.count
+        self.viewModel.update(model: playlist[musicIndex])
+        self.radioPlayer.stop()
+        let oldVolume = self.radioPlayer.player.volume
+        self.radioPlayer.initPlayer(url: viewModel.model.streamUrl)
+        self.radioPlayer.player.volume = oldVolume
+        self.radioPlayer.play()
+    }
+    
+    private func minusOneMusic() {
+        self.musicIndex -= 1
+        self.musicIndex = (self.musicIndex + playlist.count) % playlist.count
+        self.viewModel.update(model: playlist[musicIndex])
+        self.radioPlayer.stop()
+        let oldVolume = self.radioPlayer.player.volume
+        self.radioPlayer.initPlayer(url: viewModel.model.streamUrl)
+        self.radioPlayer.player.volume = oldVolume
+        self.radioPlayer.play()
     }
 }

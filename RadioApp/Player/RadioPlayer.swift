@@ -15,20 +15,18 @@ final class RadioPlayer: ObservableObject {
     init(currentEfir: MusicM? = nil) {
         self.efir = currentEfir
         self.initPlayer(url: efir?.streamUrl)
-        self.play(efir!)
+        self.play()
     }
     
     func initPlayer(url: String?) {
         guard let url = URL(string: url!) else { return }
         let playerItem = AVPlayerItem(url: url)
         player = AVPlayer(playerItem: playerItem)
-        player.volume = 1
     }
 
-    func play(_ efir: MusicM) {
-        self.efir = efir
-        player.play()
+    func play() {
         isPlaying = true
+        player.play()
     }
     
     func stop() {

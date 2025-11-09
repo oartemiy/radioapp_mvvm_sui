@@ -21,10 +21,9 @@ struct HomeV: View {
                         onTapSearch: { searchTapped.toggle() }
                     )
                     // Playlists
-                    // todo: vertical
                     HomePlaylistV(
                         playlists: viewModel.playlists,
-                        onSelect: viewModel.selectMusic(music:)
+                        onSelect: viewModel.selectMusic(music:index:)
                     )
 
                     Spacer().frame(height: 150)
@@ -32,7 +31,7 @@ struct HomeV: View {
                 }
                 .fullScreenCover(isPresented: $viewModel.displayPlayer) {
                     if let model = viewModel.selectedMusic {
-                        PlayerV(viewModel: PlayerVM(model: model), radioPlayer: RadioPlayer(currentEfir: model))
+                        PlayerV(viewModel: PlayerVM(model: model), radioPlayer: RadioPlayer(currentEfir: model), playlist: viewModel.playlists, musicIndex: viewModel.index)
                     }
                 }
                 .fullScreenCover(isPresented: $searchTapped) {
@@ -45,14 +44,14 @@ struct HomeV: View {
 }
 
 private struct HomePlaylistV: View {
-    let playlists: [MusicM], onSelect: (MusicM) -> Void
+    let playlists: [MusicM], onSelect: (MusicM, Int) -> Void
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .center, spacing: 0) {
                     ForEach(0..<playlists.count, id: \.self) { i in
                         Button(
-                            action: { onSelect(playlists[i]) },
+                            action: { onSelect(playlists[i], i) },
                             label: {
                                 PlaylistV(
                                     name: playlists[i].name,

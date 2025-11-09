@@ -82,6 +82,7 @@ final class HomeVM: ObservableObject {
     @Published private(set) var recentlyPlayed = [MusicM]()
     @Published var displayPlayer = false
     @Published private(set) var selectedMusic: MusicM? = nil
+    @Published var index = 0
     
     
     var fetcher = RadioFetcher.shared
@@ -96,8 +97,9 @@ final class HomeVM: ObservableObject {
         playlists = fetcher.efirs
     }
     
-    func selectMusic(music: MusicM) {
+    func selectMusic(music: MusicM, index: Int) {
         selectedMusic = music
         displayPlayer = true
+        self.index = index
     }
 }
