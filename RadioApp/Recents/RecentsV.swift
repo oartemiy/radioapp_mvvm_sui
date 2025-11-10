@@ -25,10 +25,10 @@ struct RecentsV: View {
                         viewModel.clearPlaylists()
                     }, label: {
                         HStack {
-                            Image(systemName: "trash").foregroundStyle(Color.red)
+                            Image(systemName: "trash").foregroundStyle(viewModel.playlists.isEmpty ? Color.gray : Color.red)
                             Text("Clear recents").foregroundColor(Color.black)
                         }.padding(.leading, 20).padding(.top, 10)
-                    })
+                    }).disabled(viewModel.playlists.isEmpty)
                     Spacer()
                     if searchTapped {
                         HStack {
