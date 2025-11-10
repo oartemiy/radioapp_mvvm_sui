@@ -5,7 +5,7 @@
 //  Created by Артемий Образцов on 09.11.2025.
 //
 import SwiftUI
-import Combine
+//import Combine
 
 final class FavouriteVM: ObservableObject {
     @Published private(set) var headerStr = "Liked"

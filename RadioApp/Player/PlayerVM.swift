@@ -13,9 +13,13 @@ final class PlayerVM: ObservableObject {
     init(model: MusicM, liked: Bool) {
         self.model = model
         self.liked = liked
+        RadioFetcher.shared.addRecItem(efir: model)
+        RadioFetcher.shared.saveRec(RadioFetcher.shared.recEfirs)
     }
     
     func update(model: MusicM) {
         self.model = model
+        RadioFetcher.shared.addRecItem(efir: model)
+        RadioFetcher.shared.saveRec(RadioFetcher.shared.recEfirs)
     }
 }

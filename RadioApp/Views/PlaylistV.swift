@@ -30,7 +30,6 @@ struct PlaylistV: View {
                     .frame(height: 70)
                     .padding(.top, 12)
                     .padding(.bottom, 6)
-
             }
             .padding(12)
             .background(Color.primary_color)

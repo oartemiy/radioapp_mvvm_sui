@@ -168,5 +168,6 @@ struct PlayerV: View {
             viewModel.model
         )
         self.radioPlayer.play()
+
     }
 }

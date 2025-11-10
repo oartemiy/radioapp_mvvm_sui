@@ -13,8 +13,11 @@ public class RadioFetcher: ObservableObject {
     @Published var efirs = [MusicM]()
     @Published var favEfirs = [MusicM]()
     @Published var volume: Float = 1.0
+    // recEfirs is stack
+    @Published var recEfirs = [MusicM]()
     
     private let favouritesKey = "favourites"
+    private let recentsKey = "recents"
     
     init() {
         load()
@@ -68,7 +71,6 @@ public class RadioFetcher: ObservableObject {
     }
     
     func getVolume() -> Float? {
-        
         return UserDefaults.standard.float(forKey: "volume")
     }
         
@@ -84,6 +86,28 @@ public class RadioFetcher: ObservableObject {
     
     func favAdd(efir: MusicM) {
         favEfirs.append(efir)
+    }
+    
+    func addRecItem(efir: MusicM) {
+        if recEfirs.contains(efir) {
+            recEfirs.remove(at: recEfirs.firstIndex(of: efir)!)
+        }
+        recEfirs.append(efir)
+    }
+    
+    func saveRec(_ recEfirs: [MusicM]) {
+        let recStrArr = recEfirs.map( {$0.name} )
+        UserDefaults.standard.set(recStrArr, forKey: recentsKey)
+        UserDefaults.standard.synchronize()
+    }
+    
+    private func getRecents() -> [MusicM] {
+        let recStrArr = UserDefaults.standard.array(forKey: recentsKey) as? [String] ?? []
+        let efirsStrArr = self.efirs.map( {$0.name} )
+        let newRecStrArr = recStrArr.filter {efirsStrArr.contains($0) }
+        let newrecArr = efirs.filter( {newRecStrArr.contains($0.name)} )
+        self.recEfirs = newrecArr
+        return newrecArr
     }
 
     func favDel(efir: MusicM) {

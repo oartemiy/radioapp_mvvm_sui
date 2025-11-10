@@ -22,10 +22,14 @@ struct FavouriteV: View {
                         onTapSearch: { searchTapped.toggle() }
                     )
                     // Playlists
-                    HomePlaylistV(
-                        playlists: viewModel.playlists,
-                        onSelect: viewModel.selectMusic(music:index:)
-                    )
+                    if viewModel.playlists.isEmpty {
+                        Text("There are no favourites yet❤️").bold().padding(40)
+                    } else {
+                        HomePlaylistV(
+                            playlists: viewModel.playlists,
+                            onSelect: viewModel.selectMusic(music:index:)
+                        )
+                    }
 
                     Spacer().frame(height: 150)
                     Spacer()
@@ -35,10 +39,9 @@ struct FavouriteV: View {
             viewModel.playlists = RadioFetcher.shared.favEfirs
         }.fullScreenCover(isPresented: $viewModel.displayPlayer) {
             if let model = viewModel.selectedMusic {
-                PlayerV(viewModel: PlayerVM(model: model, liked: viewModel.playlists.contains(model)), radioPlayer: RadioPlayer(currentEfir: model), playlist: viewModel.playlists, musicIndex: viewModel.index).onDisappear{
+                PlayerV(viewModel: PlayerVM(model: model, liked: viewModel.playlists.contains(model)), radioPlayer: RadioPlayer(currentEfir: model), playlist: viewModel.playlists, musicIndex: viewModel.index).onDisappear {
                     viewModel.playlists = RadioFetcher.shared.favEfirs
                 }
-                
             }
             
         }

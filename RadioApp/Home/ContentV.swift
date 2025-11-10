@@ -17,6 +17,10 @@ struct ContentV: View {
                 Text("Liked")
                 Image(systemName: "heart.fill")
             }
+            RecentsV().tabItem {
+                Text("Recents")
+                Image(systemName: "clock")
+            }
         }
     }
 }
