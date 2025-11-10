@@ -78,7 +78,10 @@ public class RadioFetcher: ObservableObject {
     }
     
     func getVolume() -> Float? {
-        return UserDefaults.standard.float(forKey: "volume")
+        if UserDefaults.standard.object(forKey: "volume") != nil {
+            return UserDefaults.standard.float(forKey: "volume")
+        }
+        return nil
     }
         
     // Получение массива избранных названий станций из UserDefaults
