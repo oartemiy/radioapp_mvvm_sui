@@ -57,7 +57,11 @@ struct RecentsV: View {
 
             }.animation(.spring()).edgesIgnoringSafeArea([.horizontal, .bottom])
         }.onAppear {
+            if RadioFetcher.shared.getRecents() != nil {
+                RadioFetcher.shared.recEfirs = RadioFetcher.shared.getRecents()!
+            }
             viewModel.playlists = RadioFetcher.shared.recEfirs
+            
         }
     }
 }

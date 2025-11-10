@@ -21,10 +21,17 @@ public class RadioFetcher: ObservableObject {
     
     init() {
         load()
+        // load volume
         if let volumeOld = getVolume() {
             self.volume = volumeOld
         } else {
             self.volume = 1.0
+        }
+        // load recents
+        if let recentsData = getRecents() {
+            self.recEfirs = recentsData
+        } else {
+            self.recEfirs = []
         }
     }
     
@@ -99,7 +106,7 @@ public class RadioFetcher: ObservableObject {
         UserDefaults.standard.synchronize()
     }
     
-    private func getRecents() -> [MusicM] {
+    func getRecents() -> [MusicM]? {
         let recStrArr = UserDefaults.standard.array(forKey: recentsKey) as? [String] ?? []
         let efirsStrArr = self.efirs.map( {$0.name} )
         let newRecStrArr = recStrArr.filter {efirsStrArr.contains($0) }
