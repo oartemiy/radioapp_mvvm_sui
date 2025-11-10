@@ -60,8 +60,8 @@ struct PlayerV: View {
 
                 HStack(alignment: .center, spacing: 12) {
                     Image(systemName: volumeIconName).resizable().frame(
-                        width: 20,
-                        height: 20
+                        width: 25,
+                        height: 25
                     ).bold().animation(.default, value: volumeIconName)
                     Slider(
                         value: $radioPlayer.player.volume,
@@ -95,7 +95,7 @@ struct PlayerV: View {
                         },
                         label: {
                             (viewModel.liked ? Image.heart_filled : Image.heart)
-                                .resizable().frame(width: 20, height: 20)
+                                .resizable().frame(width: 25, height: 25)
                         }
                     )
 
