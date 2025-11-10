@@ -18,6 +18,11 @@ public class RadioFetcher: ObservableObject {
     
     init() {
         load()
+        if let volumeOld = getVolume() {
+            self.volume = volumeOld
+        } else {
+            self.volume = 1.0
+        }
     }
     
     private func load() {
@@ -56,6 +61,15 @@ public class RadioFetcher: ObservableObject {
         let favStrArr = favEfirs.map({ $0.name })
         UserDefaults.standard.set(favStrArr, forKey: favouritesKey)
         UserDefaults.standard.synchronize()
+    }
+    
+    func saveVolume(_ volume: Float) {
+        UserDefaults.standard.set(volume, forKey: "volume")
+    }
+    
+    func getVolume() -> Float? {
+        
+        return UserDefaults.standard.float(forKey: "volume")
     }
         
     // Получение массива избранных названий станций из UserDefaults

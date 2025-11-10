@@ -15,6 +15,19 @@ struct PlayerV: View {
     @State var playlist: [MusicM]
     @State var musicIndex: Int
 
+    private var volumeIconName: String {
+        switch radioPlayer.volume {
+        case 0.0:
+            return "speaker.slash"  // Звук выключен
+        case ...0.3:
+            return "speaker.wave.1"  // Низкая громкость
+        case ...0.6:
+            return "speaker.wave.2"  // Средняя громкость
+        default:
+            return "speaker.wave.3"  // Высокая громкость
+        }
+    }
+
     var body: some View {
         ZStack {
             Color.primary_color.edgesIgnoringSafeArea(.all)
@@ -46,21 +59,39 @@ struct PlayerV: View {
                 Spacer()
 
                 HStack(alignment: .center, spacing: 12) {
-                    Text("Volume").foregroundColor(.text_primary)
-                        .bold()
-                    Slider(value: $radioPlayer.player.volume, in: 0...1)
-                        .accentColor(.main_white)
+                    Image(systemName: volumeIconName).resizable().frame(
+                        width: 20,
+                        height: 20
+                    ).bold().animation(.default, value: volumeIconName)
+                    Slider(
+                        value: $radioPlayer.player.volume,
+                        in: 0...1,
+                        onEditingChanged: { isEditing in
+                            if !isEditing {
+                                radioPlayer.volume = radioPlayer.player.volume
+                            }
+                        }
+                    )
+                    .accentColor(.main_white)
                     Button(
                         action: {
                             viewModel.liked.toggle()
                             if viewModel.liked {
-                                RadioFetcher.shared.favAdd(efir: viewModel.model)
-                                RadioFetcher.shared.saveFavourites(RadioFetcher.shared.favEfirs)
+                                RadioFetcher.shared.favAdd(
+                                    efir: viewModel.model
+                                )
+                                RadioFetcher.shared.saveFavourites(
+                                    RadioFetcher.shared.favEfirs
+                                )
                             } else {
-                                RadioFetcher.shared.favDel(efir: viewModel.model)
-                                RadioFetcher.shared.saveFavourites(RadioFetcher.shared.favEfirs)
+                                RadioFetcher.shared.favDel(
+                                    efir: viewModel.model
+                                )
+                                RadioFetcher.shared.saveFavourites(
+                                    RadioFetcher.shared.favEfirs
+                                )
                             }
-                            
+
                         },
                         label: {
                             (viewModel.liked ? Image.heart_filled : Image.heart)
@@ -96,6 +127,7 @@ struct PlayerV: View {
             }.padding(.bottom, HORIZONTAL_SPACING).animation(.spring())
         }.onDisappear {
             RadioFetcher.shared.volume = radioPlayer.player.volume
+            RadioFetcher.shared.saveVolume(RadioFetcher.shared.volume)
         }
     }
 
@@ -117,7 +149,9 @@ struct PlayerV: View {
         self.radioPlayer.initPlayer(url: viewModel.model.streamUrl)
         self.radioPlayer.player.volume = oldVolume
         RadioFetcher.shared.volume = self.radioPlayer.player.volume
-        self.viewModel.liked = RadioFetcher.shared.favEfirs.contains(viewModel.model)
+        self.viewModel.liked = RadioFetcher.shared.favEfirs.contains(
+            viewModel.model
+        )
         self.radioPlayer.play()
     }
 
@@ -130,7 +164,9 @@ struct PlayerV: View {
         self.radioPlayer.initPlayer(url: viewModel.model.streamUrl)
         self.radioPlayer.player.volume = oldVolume
         RadioFetcher.shared.volume = self.radioPlayer.player.volume
-        self.viewModel.liked = RadioFetcher.shared.favEfirs.contains(viewModel.model)
+        self.viewModel.liked = RadioFetcher.shared.favEfirs.contains(
+            viewModel.model
+        )
         self.radioPlayer.play()
     }
 }
