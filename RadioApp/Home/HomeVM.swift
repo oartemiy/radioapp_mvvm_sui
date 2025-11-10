@@ -84,7 +84,6 @@ final class HomeVM: ObservableObject {
     @Published private(set) var selectedMusic: MusicM? = nil
     @Published var index = 0
     
-    
     var fetcher = RadioFetcher.shared
     
     init() {

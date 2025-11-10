@@ -9,7 +9,7 @@ import SwiftUI
 struct RadioApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeV()
+            ContentV()
         }
     }
 }

@@ -7,7 +7,7 @@ import SwiftUI
 
 // Модель данных для представления музыкальной станции/трека
 // Соответствует нескольким протоколам для удобства использования в SwiftUI
-struct MusicM: Codable, Identifiable, Equatable {
+struct MusicM: Codable, Identifiable, Equatable, Hashable {
     
     // MARK: - Properties
     // Уникальный идентификатор, необходимый для протокола Identifiable

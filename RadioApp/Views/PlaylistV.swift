@@ -6,7 +6,9 @@
 import SwiftUI
 
 struct PlaylistV: View {
+    let model: MusicM
     let name: String, coverImage: URL
+    
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
@@ -21,18 +23,19 @@ struct PlaylistV: View {
             }
             .frame(width: 140, height: 100)
             .cornerRadius(16)
-            
-            Text(name)
-                .foregroundColor(.text_primary)
-                .bold()
-                .frame(height: 70)
-                .padding(.top, 12)
-                .padding(.bottom, 6)
+            HStack {
+                Text(name)
+                    .foregroundColor(.text_primary)
+                    .bold()
+                    .frame(height: 70)
+                    .padding(.top, 12)
+                    .padding(.bottom, 6)
+
+            }
+            .padding(12)
+            .background(Color.primary_color)
+            .cornerRadius(24).modifier(NeuShadow())
+            .frame(maxWidth: 200, maxHeight: 400)
         }
-        .padding(12)
-        .background(Color.primary_color)
-        .cornerRadius(24).modifier(NeuShadow())
-        .frame(maxWidth: 200, maxHeight: 400)
     }
 }
-

@@ -5,56 +5,73 @@
 //
 import SwiftUI
 
-fileprivate let HORIZONTAL_SPACING: CGFloat = 24
+private let HORIZONTAL_SPACING: CGFloat = 24
 
 struct PlayerV: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.presentationMode) var presentationMode:
+        Binding<PresentationMode>
     @ObservedObject var viewModel: PlayerVM
     @ObservedObject var radioPlayer: RadioPlayer
     @State var playlist: [MusicM]
     @State var musicIndex: Int
-    
+
     var body: some View {
         ZStack {
             Color.primary_color.edgesIgnoringSafeArea(.all)
-            
+
             VStack(alignment: .center, spacing: 0) {
                 HStack(alignment: .center) {
-                    Button(action: { self.presentationMode.wrappedValue.dismiss() }) {
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }) {
                         Image.close.resizable().frame(width: 20, height: 20)
                             .padding(8).background(Color.primary_color)
                             .cornerRadius(20).modifier(NeuShadow())
                     }
                     Spacer()
-                    Button(action: {  }) {
+                    Button(action: {}) {
                         Image.options.resizable().frame(width: 16, height: 16)
                             .padding(12).background(Color.primary_color)
                             .cornerRadius(20).modifier(NeuShadow())
                     }
                 }.padding(.horizontal, HORIZONTAL_SPACING).padding(.top, 12)
-                
-                 PlayerDiscV(coverImage: viewModel.model.imageUrl)
-                
+
+                PlayerDiscV(coverImage: viewModel.model.imageUrl)
+
                 Text(viewModel.model.name).foregroundColor(.text_primary)
                     .foregroundColor(.black)
                     .bold()
                     .padding(.top, 12)
-                
+
                 Spacer()
-                
+
                 HStack(alignment: .center, spacing: 12) {
                     Text("Volume").foregroundColor(.text_primary)
                         .bold()
                     Slider(value: $radioPlayer.player.volume, in: 0...1)
                         .accentColor(.main_white)
-                    Button(action: { viewModel.liked.toggle() }) {
-                        (viewModel.liked ? Image.heart_filled : Image.heart)
-                            .resizable().frame(width: 20, height: 20)
-                    }
+                    Button(
+                        action: {
+                            viewModel.liked.toggle()
+                            if viewModel.liked {
+                                RadioFetcher.shared.favAdd(efir: viewModel.model)
+                                RadioFetcher.shared.saveFavourites(RadioFetcher.shared.favEfirs)
+                            } else {
+                                RadioFetcher.shared.favDel(efir: viewModel.model)
+                                RadioFetcher.shared.saveFavourites(RadioFetcher.shared.favEfirs)
+                            }
+                            
+                        },
+                        label: {
+                            (viewModel.liked ? Image.heart_filled : Image.heart)
+                                .resizable().frame(width: 20, height: 20)
+                        }
+                    )
+
                 }.padding(.horizontal, 45)
-                
+
                 Spacer()
-                
+
                 HStack(alignment: .center) {
                     Button(action: { minusOneMusic() }) {
                         Image.next.resizable().frame(width: 18, height: 18)
@@ -79,7 +96,7 @@ struct PlayerV: View {
             }.padding(.bottom, HORIZONTAL_SPACING).animation(.spring())
         }
     }
-    
+
     private func playPause() {
         viewModel.isPlaying.toggle()
         if !radioPlayer.isPlaying {
@@ -88,7 +105,7 @@ struct PlayerV: View {
             radioPlayer.stop()
         }
     }
-    
+
     private func plusOneMusic() {
         self.musicIndex += 1
         self.musicIndex = (self.musicIndex + playlist.count) % playlist.count
@@ -97,9 +114,10 @@ struct PlayerV: View {
         let oldVolume = self.radioPlayer.player.volume
         self.radioPlayer.initPlayer(url: viewModel.model.streamUrl)
         self.radioPlayer.player.volume = oldVolume
+        self.viewModel.liked = RadioFetcher.shared.favEfirs.contains(viewModel.model)
         self.radioPlayer.play()
     }
-    
+
     private func minusOneMusic() {
         self.musicIndex -= 1
         self.musicIndex = (self.musicIndex + playlist.count) % playlist.count
@@ -108,6 +126,7 @@ struct PlayerV: View {
         let oldVolume = self.radioPlayer.player.volume
         self.radioPlayer.initPlayer(url: viewModel.model.streamUrl)
         self.radioPlayer.player.volume = oldVolume
+        self.viewModel.liked = RadioFetcher.shared.favEfirs.contains(viewModel.model)
         self.radioPlayer.play()
     }
 }

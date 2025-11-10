@@ -6,12 +6,13 @@
 import Foundation
 
 final class PlayerVM: ObservableObject {
-    var model: MusicM
+    @Published var model: MusicM
     @Published var liked = false
     @Published var isPlaying = true
     
-    init(model: MusicM) {
+    init(model: MusicM, liked: Bool) {
         self.model = model
+        self.liked = liked
     }
     
     func update(model: MusicM) {

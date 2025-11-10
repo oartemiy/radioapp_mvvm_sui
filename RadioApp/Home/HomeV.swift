@@ -31,8 +31,20 @@ struct HomeV: View {
                 }
                 .fullScreenCover(isPresented: $viewModel.displayPlayer) {
                     if let model = viewModel.selectedMusic {
-                        PlayerV(viewModel: PlayerVM(model: model), radioPlayer: RadioPlayer(currentEfir: model), playlist: viewModel.playlists, musicIndex: viewModel.index)
+                        PlayerV(
+                            viewModel: PlayerVM(
+                                model: model,
+                                liked: RadioFetcher.shared.favEfirs.contains(
+                                    model
+                                )
+                            ),
+                            radioPlayer: RadioPlayer(currentEfir: model),
+                            playlist: viewModel.playlists,
+                            musicIndex: viewModel.index
+                        )
+
                     }
+
                 }
                 .fullScreenCover(isPresented: $searchTapped) {
                     Neuromorphism()
@@ -43,7 +55,7 @@ struct HomeV: View {
     }
 }
 
-private struct HomePlaylistV: View {
+struct HomePlaylistV: View {
     let playlists: [MusicM], onSelect: (MusicM, Int) -> Void
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
@@ -51,17 +63,21 @@ private struct HomePlaylistV: View {
                 VStack(alignment: .center, spacing: 0) {
                     ForEach(0..<playlists.count, id: \.self) { i in
                         Button(
-                            action: { onSelect(playlists[i], i) },
-                            label: {
+
+                            action: {
+                                withAnimation { onSelect(playlists[i], i) }
+                            }) {
                                 PlaylistV(
+                                    model: playlists[i],
                                     name: playlists[i].name,
                                     coverImage: playlists[i].imageUrl
                                 )
                             }
-                        ).padding(.top, 6).padding(.bottom, 40)
+                            .padding(.top, 6).padding(.bottom, 40)
 
                     }
-                }.padding(.horizontal, Constants.Sizes.HORIZONTAL_SPACING).frame(maxWidth: .infinity)
+                }.padding(.horizontal, Constants.Sizes.HORIZONTAL_SPACING)
+                    .frame(maxWidth: .infinity)
             }.frame(maxWidth: .infinity, maxHeight: .infinity).padding(.top, 36)
         }.padding(.top, 36)
     }
