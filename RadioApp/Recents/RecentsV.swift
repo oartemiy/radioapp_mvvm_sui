@@ -26,7 +26,7 @@ struct RecentsV: View {
                         Text("There are no recents yet🕐").bold().padding(40)
                     } else {
                         HomePlaylistV(
-                            playlists: viewModel.playlists,
+                            playlists: viewModel.playlists.reversed(),
                             onSelect: viewModel.selectMusic(music:index:)
                         )
                     }
@@ -44,7 +44,7 @@ struct RecentsV: View {
                                 isRecent: true
                             ),
                             radioPlayer: RadioPlayer(currentEfir: model),
-                            playlist: viewModel.playlists,
+                            playlist: viewModel.playlists.reversed(),
                             musicIndex: viewModel.index
                         ).onDisappear {
                             viewModel.playlists = RadioFetcher.shared.recEfirs

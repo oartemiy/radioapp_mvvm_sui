@@ -10,7 +10,7 @@ import SwiftUI
 struct FavouriteV: View {
     @StateObject var viewModel = FavouriteVM()
     @State var searchTapped: Bool = false
-    
+
     var body: some View {
         ZStack {
             Color.primary_color.edgesIgnoringSafeArea(.all)
@@ -26,7 +26,7 @@ struct FavouriteV: View {
                         Text("There are no favourites yet❤️").bold().padding(40)
                     } else {
                         HomePlaylistV(
-                            playlists: viewModel.playlists,
+                            playlists: viewModel.playlists.reversed(),
                             onSelect: viewModel.selectMusic(music:index:)
                         )
                     }
@@ -39,18 +39,25 @@ struct FavouriteV: View {
             viewModel.playlists = RadioFetcher.shared.favEfirs
         }.fullScreenCover(isPresented: $viewModel.displayPlayer) {
             if let model = viewModel.selectedMusic {
-                PlayerV(viewModel: PlayerVM(model: model, liked: viewModel.playlists.contains(model)), radioPlayer: RadioPlayer(currentEfir: model), playlist: viewModel.playlists, musicIndex: viewModel.index).onDisappear {
+                PlayerV(
+                    viewModel: PlayerVM(
+                        model: model,
+                        liked: viewModel.playlists.contains(model)
+                    ),
+                    radioPlayer: RadioPlayer(currentEfir: model),
+                    playlist: viewModel.playlists.reversed(),
+                    musicIndex: viewModel.index
+                ).onDisappear {
                     viewModel.playlists = RadioFetcher.shared.favEfirs
                 }
             }
-            
+
         }
         .fullScreenCover(isPresented: $searchTapped) {
             Neuromorphism()
         }
     }
 }
-
 
 struct FavouriteV_Previews: PreviewProvider {
     static var previews: some View {
