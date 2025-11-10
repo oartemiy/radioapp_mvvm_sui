@@ -24,6 +24,12 @@ final class RecentsVM: ObservableObject {
         }
     }
     
+    func clearPlaylists() {
+        playlists.removeAll()
+        RadioFetcher.shared.recEfirs.removeAll()
+        RadioFetcher.shared.saveRec(RadioFetcher.shared.recEfirs)
+    }
+    
     private let fetcher = RadioFetcher.shared
     
     init() { }

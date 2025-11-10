@@ -144,7 +144,7 @@ struct PlayerV: View {
         self.musicIndex += 1
         self.musicIndex = (self.musicIndex + playlist.count) % playlist.count
         self.viewModel.update(model: playlist[musicIndex])
-        print(playlist[musicIndex].name, musicIndex)
+//        print(playlist[musicIndex].name, musicIndex)
         self.radioPlayer.stop()
         let oldVolume = self.radioPlayer.player.volume
         self.radioPlayer.initPlayer(url: viewModel.model.streamUrl)
@@ -160,7 +160,7 @@ struct PlayerV: View {
         self.musicIndex -= 1
         self.musicIndex = (self.musicIndex + playlist.count) % playlist.count
         self.viewModel.update(model: playlist[musicIndex])
-        print(playlist[musicIndex].name, musicIndex)
+//        print(playlist[musicIndex].name, musicIndex)
         self.radioPlayer.stop()
         let oldVolume = self.radioPlayer.player.volume
         self.radioPlayer.initPlayer(url: viewModel.model.streamUrl)

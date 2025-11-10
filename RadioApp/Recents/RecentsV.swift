@@ -21,6 +21,14 @@ struct RecentsV: View {
                         headerStr: viewModel.headerStr,
                         onTapSearch: { searchTapped.toggle() }
                     )
+                    Button(action: {
+                        viewModel.clearPlaylists()
+                    }, label: {
+                        HStack {
+                            Image(systemName: "trash").foregroundStyle(Color.black)
+                            Text("Clear recents").foregroundColor(Color.black).bold()
+                        }.padding(.leading, 20).padding(.top, 10)
+                    })
                     Spacer()
                     if searchTapped {
                         HStack {
