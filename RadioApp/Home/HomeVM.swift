@@ -12,6 +12,7 @@ public class RadioFetcher: ObservableObject {
     @Published var isLoading = true
     @Published var efirs = [MusicM]()
     @Published var favEfirs = [MusicM]()
+    @Published var volume: Float = 1.0
     
     private let favouritesKey = "favourites"
     

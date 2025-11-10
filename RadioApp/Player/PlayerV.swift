@@ -94,6 +94,8 @@ struct PlayerV: View {
                     }
                 }.padding(.horizontal, 32)
             }.padding(.bottom, HORIZONTAL_SPACING).animation(.spring())
+        }.onDisappear {
+            RadioFetcher.shared.volume = radioPlayer.player.volume
         }
     }
 
@@ -114,6 +116,7 @@ struct PlayerV: View {
         let oldVolume = self.radioPlayer.player.volume
         self.radioPlayer.initPlayer(url: viewModel.model.streamUrl)
         self.radioPlayer.player.volume = oldVolume
+        RadioFetcher.shared.volume = self.radioPlayer.player.volume
         self.viewModel.liked = RadioFetcher.shared.favEfirs.contains(viewModel.model)
         self.radioPlayer.play()
     }
@@ -126,6 +129,7 @@ struct PlayerV: View {
         let oldVolume = self.radioPlayer.player.volume
         self.radioPlayer.initPlayer(url: viewModel.model.streamUrl)
         self.radioPlayer.player.volume = oldVolume
+        RadioFetcher.shared.volume = self.radioPlayer.player.volume
         self.viewModel.liked = RadioFetcher.shared.favEfirs.contains(viewModel.model)
         self.radioPlayer.play()
     }

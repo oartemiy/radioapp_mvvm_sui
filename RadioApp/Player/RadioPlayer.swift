@@ -11,6 +11,7 @@ final class RadioPlayer: ObservableObject {
     
     @Published var isPlaying = true
     @Published var efir: MusicM? = nil
+    @Published var volume: Float = RadioFetcher.shared.volume
     
     init(currentEfir: MusicM? = nil) {
         self.efir = currentEfir
@@ -22,6 +23,7 @@ final class RadioPlayer: ObservableObject {
         guard let url = URL(string: url!) else { return }
         let playerItem = AVPlayerItem(url: url)
         player = AVPlayer(playerItem: playerItem)
+        player.volume = volume
     }
 
     func play() {
