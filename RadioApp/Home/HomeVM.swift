@@ -89,9 +89,7 @@ public class RadioFetcher: ObservableObject {
     }
     
     func addRecItem(efir: MusicM) {
-        if recEfirs.contains(efir) {
-            recEfirs.remove(at: recEfirs.firstIndex(of: efir)!)
-        }
+        recEfirs.removeAll() { $0 == efir }
         recEfirs.append(efir)
     }
     

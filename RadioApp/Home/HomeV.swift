@@ -65,7 +65,7 @@ struct HomePlaylistV: View {
                         Button(
 
                             action: {
-                                withAnimation { onSelect(playlists[i], i) }
+                                onSelect(playlists[i], i)
                             }) {
                                 PlaylistV(
                                     model: playlists[i],

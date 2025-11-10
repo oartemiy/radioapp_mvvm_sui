@@ -50,3 +50,10 @@ struct FavouriteV: View {
         }
     }
 }
+
+
+struct FavouriteV_Previews: PreviewProvider {
+    static var previews: some View {
+        FavouriteV()
+    }
+}

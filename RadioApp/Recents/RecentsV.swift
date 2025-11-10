@@ -26,11 +26,10 @@ struct RecentsV: View {
                         Text("There are no recents yet🕐").bold().padding(40)
                     } else {
                         HomePlaylistV(
-                            playlists: Array(viewModel.playlists.reversed()),
+                            playlists: viewModel.playlists,
                             onSelect: viewModel.selectMusic(music:index:)
                         )
                     }
-
                     Spacer().frame(height: 150)
                     Spacer()
                 }
@@ -41,7 +40,8 @@ struct RecentsV: View {
                                 model: model,
                                 liked: RadioFetcher.shared.favEfirs.contains(
                                     model
-                                )
+                                ),
+                                isRecent: true
                             ),
                             radioPlayer: RadioPlayer(currentEfir: model),
                             playlist: viewModel.playlists,
@@ -49,9 +49,7 @@ struct RecentsV: View {
                         ).onDisappear {
                             viewModel.playlists = RadioFetcher.shared.recEfirs
                         }
-
                     }
-
                 }
                 .fullScreenCover(isPresented: $searchTapped) {
                     Neuromorphism()
