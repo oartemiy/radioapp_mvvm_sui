@@ -23,6 +23,7 @@ final class PlayerVM: ObservableObject {
     
     func update(model: MusicM) {
         self.model = model
+        // when we listen to music in recents we mustn't changed recents
         if !isRecent {
             RadioFetcher.shared.addRecItem(efir: model)
             RadioFetcher.shared.saveRec(RadioFetcher.shared.recEfirs)
