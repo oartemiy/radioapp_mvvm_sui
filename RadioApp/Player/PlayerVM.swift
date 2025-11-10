@@ -17,7 +17,6 @@ final class PlayerVM: ObservableObject {
         self.isRecent = isRecent
         if !isRecent {
             RadioFetcher.shared.addRecItem(efir: model)
-            RadioFetcher.shared.saveRec(RadioFetcher.shared.recEfirs)
         }
     }
     
@@ -26,7 +25,6 @@ final class PlayerVM: ObservableObject {
         // when we listen to music in recents we mustn't changed recents
         if !isRecent {
             RadioFetcher.shared.addRecItem(efir: model)
-            RadioFetcher.shared.saveRec(RadioFetcher.shared.recEfirs)
         }
     }
 }

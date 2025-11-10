@@ -115,6 +115,7 @@ public class RadioFetcher: ObservableObject {
     func addRecItem(efir: MusicM) {
         recEfirs.removeAll { $0 == efir }
         recEfirs.append(efir)
+        self.saveRec(recEfirs)
     }
 
     func saveRec(_ recEfirs: [MusicM]) {

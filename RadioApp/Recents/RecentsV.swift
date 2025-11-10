@@ -92,7 +92,6 @@ struct RecentsV: View {
                 RadioFetcher.shared.recEfirs = RadioFetcher.shared.getRecents()!
             }
             viewModel.playlists = RadioFetcher.shared.recEfirs
-            
         }
     }
 }
