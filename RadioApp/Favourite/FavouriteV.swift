@@ -51,7 +51,7 @@ struct FavouriteV: View {
                     }
                     // Playlists
                     if viewModel.playlists.isEmpty {
-                        Text("There are no favourites yet❤️").bold().padding(40)
+                        Text("There are no favourites yet🤷‍♂️").bold().padding(40)
                     } else {
                         HomePlaylistV(
                             playlists: viewModel.filteredPlaylists.reversed(),

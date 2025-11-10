@@ -42,11 +42,11 @@ struct PlayerV: View {
                             .cornerRadius(20).modifier(NeuShadow())
                     }
                     Spacer()
-                    Button(action: {}) {
-                        Image.options.resizable().frame(width: 16, height: 16)
-                            .padding(12).background(Color.primary_color)
-                            .cornerRadius(20).modifier(NeuShadow())
-                    }
+//                    Button(action: {}) {
+//                        Image.options.resizable().frame(width: 16, height: 16)
+//                            .padding(12).background(Color.primary_color)
+//                            .cornerRadius(20).modifier(NeuShadow())
+//                    }
                 }.padding(.horizontal, HORIZONTAL_SPACING).padding(.top, 12)
 
                 PlayerDiscV(coverImage: viewModel.model.imageUrl)

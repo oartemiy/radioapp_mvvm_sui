@@ -25,8 +25,8 @@ struct RecentsV: View {
                         viewModel.clearPlaylists()
                     }, label: {
                         HStack {
-                            Image(systemName: "trash").foregroundStyle(Color.black)
-                            Text("Clear recents").foregroundColor(Color.black).bold()
+                            Image(systemName: "trash").foregroundStyle(Color.red)
+                            Text("Clear recents").foregroundColor(Color.black)
                         }.padding(.leading, 20).padding(.top, 10)
                     })
                     Spacer()
@@ -58,7 +58,7 @@ struct RecentsV: View {
                     }
                     // Playlists
                     if (viewModel.playlists.isEmpty) {
-                        Text("There are no recents yet🕐").bold().padding(40)
+                        Text("There are no recents yet🤷‍♂️").bold().padding(40)
                     } else {
                         HomePlaylistV(
                             playlists: viewModel.filteredPlaylists.reversed(),

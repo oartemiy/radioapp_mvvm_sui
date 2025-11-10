@@ -7,7 +7,7 @@
 import SwiftUI
 
 final class RecentsVM: ObservableObject {
-    @Published private(set) var headerStr = "Recents"
+    @Published private(set) var headerStr = "Recents🕐"
     @Published var playlists = RadioFetcher.shared.recEfirs
     @Published var displayPlayer = false
     @Published private(set) var selectedMusic: MusicM? = nil

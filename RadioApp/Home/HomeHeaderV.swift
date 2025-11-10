@@ -15,7 +15,7 @@ struct HomeHeaderV: View {
             // Отображение заголовка
             Text(headerStr)
                 .foregroundColor(.text_header) // Цвет текста из ресурсов
-                .bold() // Жирное начертание
+                .bold().font(.title2) // Жирное начертание
             
             Spacer() // Разделитель, занимает все свободное пространство
             

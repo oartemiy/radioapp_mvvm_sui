@@ -8,7 +8,7 @@ import SwiftUI
 //import Combine
 
 final class FavouriteVM: ObservableObject {
-    @Published private(set) var headerStr = "Liked"
+    @Published private(set) var headerStr = "Liked❤️"
     @Published var playlists = RadioFetcher.shared.favEfirs
     @Published var displayPlayer = false
     @Published private(set) var selectedMusic: MusicM? = nil

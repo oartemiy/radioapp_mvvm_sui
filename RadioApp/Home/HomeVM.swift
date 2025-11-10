@@ -139,7 +139,7 @@ public class RadioFetcher: ObservableObject {
 }
 
 final class HomeVM: ObservableObject {
-    @Published private(set) var headerStr = "Radios"
+    @Published private(set) var headerStr = "Radios📻"
     @Published private(set) var playlists = [MusicM]()
     @Published private(set) var recentlyPlayed = [MusicM]()
     @Published var displayPlayer = false
