@@ -21,12 +21,39 @@ struct RecentsV: View {
                         headerStr: viewModel.headerStr,
                         onTapSearch: { searchTapped.toggle() }
                     )
+                    Spacer()
+                    if searchTapped {
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+
+                            TextField("Find recent radio", text: $viewModel.query)
+                                .textFieldStyle(PlainTextFieldStyle())
+
+                            if !viewModel.query.isEmpty {
+                                Button(action: {
+                                    viewModel.query = ""
+                                }) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }
+                        .padding(10)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .padding(
+                            .horizontal,
+                            Constants.Sizes.HORIZONTAL_SPACING
+                        )
+                        .transition(.opacity)
+                    }
                     // Playlists
                     if (viewModel.playlists.isEmpty) {
                         Text("There are no recents yet🕐").bold().padding(40)
                     } else {
                         HomePlaylistV(
-                            playlists: viewModel.playlists.reversed(),
+                            playlists: viewModel.filteredPlaylists.reversed(),
                             onSelect: viewModel.selectMusic(music:index:)
                         )
                     }
@@ -51,10 +78,6 @@ struct RecentsV: View {
                         }
                     }
                 }
-                .fullScreenCover(isPresented: $searchTapped) {
-                    Neuromorphism()
-                }
-
             }.animation(.spring()).edgesIgnoringSafeArea([.horizontal, .bottom])
         }.onAppear {
             if RadioFetcher.shared.getRecents() != nil {

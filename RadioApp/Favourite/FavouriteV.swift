@@ -21,12 +21,40 @@ struct FavouriteV: View {
                         headerStr: viewModel.headerStr,
                         onTapSearch: { searchTapped.toggle() }
                     )
+                    Spacer()
+                    if searchTapped {
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+
+                            TextField("Find liked radio", text: $viewModel.query)
+                                .textFieldStyle(PlainTextFieldStyle())
+
+                            if !viewModel.query.isEmpty {
+                                // clear button
+                                Button(action: {
+                                    viewModel.query = ""
+                                }) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }
+                        .padding(10)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .padding(
+                            .horizontal,
+                            Constants.Sizes.HORIZONTAL_SPACING
+                        )
+                        .transition(.opacity)
+                    }
                     // Playlists
                     if viewModel.playlists.isEmpty {
                         Text("There are no favourites yet❤️").bold().padding(40)
                     } else {
                         HomePlaylistV(
-                            playlists: viewModel.playlists.reversed(),
+                            playlists: viewModel.filteredPlaylists.reversed(),
                             onSelect: viewModel.selectMusic(music:index:)
                         )
                     }
@@ -52,9 +80,6 @@ struct FavouriteV: View {
                 }
             }
 
-        }
-        .fullScreenCover(isPresented: $searchTapped) {
-            Neuromorphism()
         }
     }
 }

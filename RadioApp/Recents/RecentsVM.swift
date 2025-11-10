@@ -12,6 +12,17 @@ final class RecentsVM: ObservableObject {
     @Published var displayPlayer = false
     @Published private(set) var selectedMusic: MusicM? = nil
     @Published var index = 0
+    @Published var query = ""
+    
+    var filteredPlaylists: [MusicM] {
+        if query.isEmpty {
+            return playlists
+        } else {
+            return playlists.filter {playlist in
+                playlist.name.localizedCaseInsensitiveContains(query)
+            }
+        }
+    }
     
     private let fetcher = RadioFetcher.shared
     

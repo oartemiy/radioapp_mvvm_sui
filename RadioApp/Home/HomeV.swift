@@ -1,3 +1,4 @@
+import Combine
 //
 //  HomeV.swift
 //  RadioApp
@@ -13,16 +14,43 @@ struct HomeV: View {
         ZStack {
             Color.primary_color.edgesIgnoringSafeArea(.all)
 
-            ScrollView(.vertical, showsIndicators: false) {
+            ScrollView(.vertical) {
                 VStack(alignment: .leading, spacing: 0) {
                     // Header
                     HomeHeaderV(
                         headerStr: viewModel.headerStr,
                         onTapSearch: { searchTapped.toggle() }
                     )
+                    Spacer()
+                    if searchTapped {
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+
+                            TextField("Find radio", text: $viewModel.query)
+                                .textFieldStyle(PlainTextFieldStyle())
+
+                            if !viewModel.query.isEmpty {
+                                Button(action: {
+                                    viewModel.query = ""
+                                }) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }
+                        .padding(10)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .padding(
+                            .horizontal,
+                            Constants.Sizes.HORIZONTAL_SPACING
+                        )
+                        .transition(.opacity)
+                    }
                     // Playlists
                     HomePlaylistV(
-                        playlists: viewModel.playlists,
+                        playlists: viewModel.filteredPlaylists,  // draw only filtered
                         onSelect: viewModel.selectMusic(music:index:)
                     )
 
@@ -46,11 +74,9 @@ struct HomeV: View {
                     }
 
                 }
-                .fullScreenCover(isPresented: $searchTapped) {
-                    Neuromorphism()
-                }
 
             }.animation(.spring()).edgesIgnoringSafeArea([.horizontal, .bottom])
+                .searchable(text: $viewModel.query, prompt: "Search radio")
         }
     }
 }
@@ -63,7 +89,6 @@ struct HomePlaylistV: View {
                 VStack(alignment: .center, spacing: 0) {
                     ForEach(0..<playlists.count, id: \.self) { i in
                         Button(
-
                             action: {
                                 onSelect(playlists[i], i)
                             }) {
